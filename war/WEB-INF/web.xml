@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee 
+              http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
+	version="2.5" xmlns="http://java.sun.com/xml/ns/javaee">
+
+	<!-- Servlets -->
+	<servlet>
+		<servlet-name>greetServlet</servlet-name>
+		<servlet-class>com.agilet.server.GreetingServiceImpl</servlet-class>
+	</servlet>
+
+	<servlet-mapping>
+		<servlet-name>greetServlet</servlet-name>
+		<url-pattern>/seculity_test/greet</url-pattern>
+	</servlet-mapping>
+
+
+	<servlet>
+		<servlet-name>adminServlet</servlet-name>
+		<servlet-class>com.agilet.servlet.AdminServlet</servlet-class>
+	</servlet>
+
+	<servlet-mapping>
+		<servlet-name>adminServlet</servlet-name>
+		<url-pattern>/seculity_test/adminServlet</url-pattern>
+	</servlet-mapping>
+
+
+
+	<servlet-mapping>
+		<servlet-name>problemServlet</servlet-name>
+		<url-pattern>/seculity_test/problemServlet</url-pattern>
+	</servlet-mapping>
+
+	<servlet>
+		<servlet-name>problemServlet</servlet-name>
+		<servlet-class>com.agilet.servlet.ProblemServlet</servlet-class>
+	</servlet>
+
+<!-- 后台   -->
+	<servlet-mapping>
+		<servlet-name>amdinServlet</servlet-name>
+		<url-pattern>/seculity_test/admin</url-pattern>
+	</servlet-mapping>
+
+	<servlet>
+		<servlet-name>amdinServlet</servlet-name>
+		<servlet-class>com.agilet.servlet.AdminServlet</servlet-class>
+	</servlet>
+
+	<!-- Default page to serve -->
+	<welcome-file-list>
+		<welcome-file>Seculity_test.html</welcome-file>
+	</welcome-file-list>
+
+</web-app>

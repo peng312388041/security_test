@@ -1,0 +1,2 @@
+serviceClass: com.agilet.client.GreetingService
+path: 4760824336B0C694D5F2968D22795D63.gwt.rpc
