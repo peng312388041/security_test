@@ -15,22 +15,11 @@
 		<url-pattern>/seculity_test/greet</url-pattern>
 	</servlet-mapping>
 
-
-	<servlet>
-		<servlet-name>adminServlet</servlet-name>
-		<servlet-class>com.agilet.servlet.AdminServlet</servlet-class>
-	</servlet>
-
-	<servlet-mapping>
-		<servlet-name>adminServlet</servlet-name>
-		<url-pattern>/seculity_test/adminServlet</url-pattern>
-	</servlet-mapping>
-
-
+ 
 
 	<servlet-mapping>
 		<servlet-name>problemServlet</servlet-name>
-		<url-pattern>/seculity_test/problemServlet</url-pattern>
+		<url-pattern>/problemServlet</url-pattern>
 	</servlet-mapping>
 
 	<servlet>
@@ -40,13 +29,13 @@
 
 <!-- 后台   -->
 	<servlet-mapping>
-		<servlet-name>amdinServlet</servlet-name>
-		<url-pattern>/seculity_test/admin</url-pattern>
+		<servlet-name>amdinTestServlet</servlet-name>
+		<url-pattern>/admin/test</url-pattern>
 	</servlet-mapping>
 
 	<servlet>
-		<servlet-name>amdinServlet</servlet-name>
-		<servlet-class>com.agilet.servlet.AdminServlet</servlet-class>
+		<servlet-name>amdinTestServlet</servlet-name>
+		<servlet-class>com.agilet.servlet.AdminTestServlet</servlet-class>
 	</servlet>
 
 	<!-- Default page to serve -->

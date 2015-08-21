@@ -17,7 +17,6 @@ public class TestEntity {
 	// exam_test_end_date date 考试结束日期
 	// exam_test_total_user_testes List<exam_user_test> 所有用户考试信息
 	// exam_test_total_time int 考试总时间
-	// exam_test_total_score int 考试总分
 	// exam_test_user_field1 string 备用字段1
 	// exam_test_user_field2 string 备用字段2
 	// exam_test_user_field3 long 备用字段3
@@ -31,19 +30,16 @@ public class TestEntity {
 	private String name;
 
 	@Persistent
-	private Date beginDate;
+	private long beginDate;
 
 	@Persistent
-	private Date endDate;
+	private long endDate;
 
 	@Persistent
-	private List<UserTestEntity> userTestes;
+	private List<String> userTestes;
 
 	@Persistent
 	private Integer totalTime;
-
-	@Persistent
-	private Integer totalScore;
 
 	@Persistent
 	private String field1;
@@ -73,19 +69,19 @@ public class TestEntity {
 		this.name = name;
 	}
 
-	public Date getBeginDate() {
+	public long getBeginDate() {
 		return beginDate;
 	}
 
-	public void setBeginDate(Date beginDate) {
+	public void setBeginDate(long beginDate) {
 		this.beginDate = beginDate;
 	}
 
-	public Date getEndDate() {
+	public long getEndDate() {
 		return endDate;
 	}
 
-	public void setEndDate(Date endDate) {
+	public void setEndDate(long endDate) {
 		this.endDate = endDate;
 	}
 
@@ -95,14 +91,6 @@ public class TestEntity {
 
 	public void setTotalTime(Integer totalTime) {
 		this.totalTime = totalTime;
-	}
-
-	public Integer getTotalScore() {
-		return totalScore;
-	}
-
-	public void setTotalScore(Integer totalScore) {
-		this.totalScore = totalScore;
 	}
 
 	public String getField1() {
@@ -137,11 +125,11 @@ public class TestEntity {
 		this.active = active;
 	}
 
-	public List<UserTestEntity> getUserTestes() {
+	public List<String> getUserTestes() {
 		return userTestes;
 	}
 
-	public void setUserTestes(List<UserTestEntity> userTestes) {
+	public void setUserTestes(List<String> userTestes) {
 		this.userTestes = userTestes;
 	}
 

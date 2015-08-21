@@ -7,7 +7,6 @@ import javax.jdo.Query;
 
 import com.agilet.model.AnswerEntity;
 import com.agilet.util.PMF;
-import com.google.appengine.api.datastore.KeyFactory;
 
 public class AnswerService {
 	private static PersistenceManager persistenceManager = PMF.getInstance().getPersistenceManager();

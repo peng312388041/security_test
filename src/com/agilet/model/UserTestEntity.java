@@ -29,7 +29,7 @@ public class UserTestEntity {
 	private UserTestEntity user;
 
 	@Persistent
-	private Date testDate;
+	private long testDate;
 
 	@Persistent
 	private Boolean result;
@@ -65,11 +65,12 @@ public class UserTestEntity {
 		this.user = user;
 	}
 
-	public Date getTestDate() {
+ 
+	public long getTestDate() {
 		return testDate;
 	}
 
-	public void setTestDate(Date testDate) {
+	public void setTestDate(long testDate) {
 		this.testDate = testDate;
 	}
 
