@@ -134,7 +134,21 @@
  						    resetModalForm(object);
 						 	 $("#addproblem").modal();
 						 })
-		 
+		 								 //单击减号
+							$(".glyphicon-minus").click(function(){
+								 
+								 var id=$(this).parent().children().first().attr("id");
+								 for(var i=0;i<problems.length;i++)
+									 {
+									 	if(problems[i].id==id)
+									 		{
+									 			problems.splice(i,1);
+									 			break;
+									 		}
+									 }
+								 
+								 updateProblemContainer();
+							})
  				})
  				 
 		}
@@ -217,7 +231,7 @@
 										 {
 										 	if(problems[i].id==problemID)
 										 		{
-										 			problems.pop(problems[i]);
+										 		   problems.splice(i,1);
 										 			break;
 										 		}
 										 }
@@ -244,15 +258,10 @@
 								})
 								//单击加号
 							$(".glyphicon-plus").click(function(){
+								alert("单击加号");
 								clearModalForm();
 							})
 							
-								 //单击减号
-							$(".glyphicon-minus").click(function(){
-								clearModalForm();
-							})
-							
-
 					});
 	
 	
