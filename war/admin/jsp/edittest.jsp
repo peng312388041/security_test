@@ -123,13 +123,14 @@
 			var str="";
  			for(var i=0;i<problems.length;i++)
  			{
-			 	str+="<a data-target='#addproblem' class=problemShow id="+problems[i].id+">"+problems[i].problemTitle+"</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <a class='glyphicon glyphicon-minus'></a><br/>"
+			 	str+="<div><a data-target='#addproblem' class=problemShow id="+problems[i].id+">"+problems[i].problemTitle+"</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <a class='glyphicon glyphicon-minus'></a></div>"
  			}
  			$("#container1").html(str);
  			
  				$(document).ready(function() {
  						 $(".problemShow").click(function(){
  						     var object=getObjectById($(this).attr("id"));
+ 						     $("#problemID").val(object.id);
  						    resetModalForm(object);
 						 	 $("#addproblem").modal();
 						 })
@@ -211,9 +212,6 @@
 						$("#addProblemButton").click(
 								function() {
 									var problemID=$("#problemID").val();
-									 alert($("#problemTitle").val());
-
-									
 									//如果已经存在,则删除旧的
 									 for(var i=0;i<problems.length;i++)
 										 {
@@ -242,12 +240,18 @@
 										problems.push(problem);
 									clearModalForm();
 									updateProblemContainer();
-									$("#problemID").val(problem.id);
+									 
 								})
 								//单击加号
 							$(".glyphicon-plus").click(function(){
 								clearModalForm();
 							})
+							
+								 //单击减号
+							$(".glyphicon-minus").click(function(){
+								clearModalForm();
+							})
+							
 
 					});
 	
@@ -538,25 +542,25 @@
 
 
 										</div>
-										<div>
-											<button type="reset" class="btn btn-default"
-												data-dismiss="modal">重置</button>
-											<button type="button" id="addTestSubmit"
-												class="btn btn-primary">确定</button>
-										</div>
+
 
 									</div>
 								</div>
 							</div>
 							<!-- 修改考试基本信息结束 -->
 						</div>
-
+						
+<!-- 		 用来提交考题数组 -->
+			<input type="hidden" >
 
 						<!--折叠框结束 -->
 				</fieldset>
 			</form>
 
-
+										<div>
+											<button type="button" id="addTestSubmit"
+												class="btn btn-primary">确定修改</button>
+										</div>
 		</div>
 	</div>
 	<div class="layout_footer">
