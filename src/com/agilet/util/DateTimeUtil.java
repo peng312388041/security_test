@@ -4,7 +4,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-public class DateTime {
+public class DateTimeUtil {
 	public static Date String2Time(String datetimeString) {
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		Date beginDateTime = new Date();
@@ -17,4 +17,10 @@ public class DateTime {
 		return beginDateTime;
 	}
 
+	public static String timeFormat(Long l) {
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+		Date beginDateTime = new Date();
+		Date date = new Date(l);
+		return sdf.format(date);
+	}
 }

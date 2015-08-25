@@ -1,7 +1,7 @@
 package com.agilet.servlet;
 
 import java.io.IOException;
-import java.io.PrintWriter;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -14,10 +14,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.agilet.model.TestEntity;
 import com.agilet.server.TestService;
-import com.agilet.util.DateTime;
-import com.google.appengine.labs.repackaged.org.json.JSONArray;
-import com.google.appengine.labs.repackaged.org.json.JSONException;
-import com.google.appengine.labs.repackaged.org.json.JSONObject;
+import com.agilet.util.DateTimeUtil;
 
 public class AdminTestServlet extends HttpServlet {
 
@@ -44,64 +41,75 @@ public class AdminTestServlet extends HttpServlet {
 			HttpServletResponse response) throws ServletException, IOException {
 
 		TestService testService = new TestService();
-		if (request.getMethod().equals("GET")) {
-			System.out.println("第一次访问，get方法！");
-			response.sendRedirect("/admin/admin.htm");
-		} else {
-			String method = request.getParameter("action");
 
-			// ----------------------如果是增加考试
-			if (method.equals("add")) {
-				String beginDate = request.getParameter("begintime");
-				String beginDateString = beginDate.substring(0, 9) + " "
-						+ "00:00:00";
+		String method = request.getParameter("action");
 
-				Date beginDateTime = DateTime.String2Time(beginDateString);
+		// ----------------------如果是增加考试
+		if (method.equals("add")) {
+			String beginDate = request.getParameter("begintime");
+			String beginDateString = beginDate.substring(0, 9) + " "
+					+ "00:00:00";
 
-				String endDate = request.getParameter("endtime");
-				String endDateString = endDate.substring(0, 9) + " "
-						+ "24:00:00";
-				Date endDateTime = DateTime.String2Time(endDateString);
-				String name = request.getParameter("name");
-				String totalTime = request.getParameter("totaltime");
+			Date beginDateTime = DateTimeUtil.String2Time(beginDateString);
 
-				TestEntity testEntity = new TestEntity();
-				testEntity.setActive(true);
-				testEntity.setBeginDate(beginDateTime.getTime());
-				testEntity.setEndDate(endDateTime.getTime());
-				testEntity.setName(name);
-				testEntity.setTotalTime(Integer.parseInt(totalTime));
-				testService.add(testEntity);
-				response.sendRedirect("/admin/test?action=list");
+			String endDate = request.getParameter("endtime");
+			String endDateString = endDate.substring(0, 9) + " " + "24:00:00";
+			Date endDateTime = DateTimeUtil.String2Time(endDateString);
+			String name = request.getParameter("name");
+			String totalTime = request.getParameter("totaltime");
+
+			TestEntity testEntity = new TestEntity();
+			testEntity.setActive(true);
+			testEntity.setBeginDate(beginDateTime.getTime());
+			testEntity.setEndDate(endDateTime.getTime());
+			testEntity.setName(name);
+			testEntity.setTotalTime(Integer.parseInt(totalTime));
+			testEntity.setUserTestes(null);
+			testService.add(testEntity);
+			request.getRequestDispatcher("/admin/test?action=list").forward(
+					request, response);
+		}
+
+		// ----------------------如果是列出考试清单
+		else if (method.equals("list")) {
+
+			List<TestEntity> testEntities = new ArrayList<TestEntity>();
+			testEntities = testService.getTestes();
+			request.getSession().setAttribute("testEntities", testEntities);
+
+			// response.sendRedirect("/admin/jsp/test.jsp");
+			request.getRequestDispatcher("/admin/jsp/test.jsp").forward(
+					request, response);
+
+		}
+
+		else if (method.equals("delete")) {
+
+			String testIdList[] = request.getParameterValues("testid");
+			for (int i = 0; i < testIdList.length; i++) {
+				Long id = Long.parseLong(testIdList[i]);
+				testService.delete(id);
 			}
+			List<TestEntity> testEntities = new ArrayList<TestEntity>();
+			testEntities = testService.getTestes();
+			request.getSession().setAttribute("testEntities", testEntities);
+			// response.sendRedirect("/admin/jsp/test.jsp");
+			request.getRequestDispatcher("/admin/jsp/test.jsp").forward(
+					request, response);
 
-			// ----------------------如果是列出考试清单
-			else if (method.equals("list")) {
-				List<TestEntity> testEntities = testService.getTestes();
+		} else if (method.equals("edit")) {
 
-				JSONArray jsonArray = new JSONArray();
-
-				for (TestEntity testEntity : testEntities) {
-					JSONObject jsonObject = new JSONObject();
-					try {
-						jsonObject.put("name", testEntity.getName());
-						jsonObject.put("startdate", testEntity.getBeginDate());
-						jsonObject.put("enddate", testEntity.getEndDate());
-						jsonObject.put("totaltime", testEntity.getTotalTime());
-						jsonArray.put(jsonObject);
-					} catch (JSONException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
-				}
-
-				PrintWriter pw = response.getWriter();
-				System.out.println(jsonArray.toString());
-				pw.write(jsonArray.toString());
-
-			}
-
-			System.out.println("不是第一次访问，get方法！");
+			Long id = Long.parseLong(request.getParameter("testid"));
+			TestEntity testEntity = testService.getTestById(id);
+			request.getSession().setAttribute("test", testEntity);
+			request.getRequestDispatcher("/admin/jsp/edittest.jsp").forward(
+					request, response);
+		} else if (method.equals("udpate")) {
+//转发给list
+			
+			
+			request.getRequestDispatcher("/admin/jsp/test.jsp").forward(
+					request, response);
 		}
 	}
 
@@ -111,5 +119,4 @@ public class AdminTestServlet extends HttpServlet {
 		// TODO Auto-generated method stub
 		super.service(arg0, arg1);
 	}
-
 }

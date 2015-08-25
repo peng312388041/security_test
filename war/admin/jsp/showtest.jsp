@@ -109,7 +109,7 @@
 			$('.form_datetime2').datetimepicker('setStartDate', starttime);
 		});
 
-		//提交增加考试表单 
+		//提交增加考试名单 
 		$("#addTestSubmit").click(function() {
 			$("#addTest").modal('hide');
 			$("#addSubmitForm").ajaxSubmit({
@@ -122,7 +122,7 @@
 			})
 		})
 
-		//提交删除考试表单 
+		//提交删除考试名单 
 		$("#delTestSubmit").click(function() {
 			$("#delTest").modal('hide');
 			$("#deleteTest").ajaxSubmit({
@@ -134,7 +134,15 @@
 				}
 			})
 		})
- 
+
+		//列出考试列表
+		// 		$("#listtest").click(function() {
+		// 			$.post('/admin/test?action=list', function(data, status) {
+		// 				if (status == "success") {
+
+		// 				}
+		// 			});
+		// 		})
 	});
 </script>
 
@@ -211,9 +219,9 @@
 						<tr>
 							<td><input type="checkbox" value="<%=test.getId()%>"
 								name="testid" class="test" /></td>
-							<td><a href="/admin/test?action=edit&&testid=<%=test.getId()%>"+><%=test.getName()%></td>
-							<td><%=DateTimeUtil.timeFormat(test.getBeginDate())%></td>
-							<td><%=DateTimeUtil.timeFormat(test.getEndDate())%></td>
+							<td><a href="/test?action=edit&&id=<%=test.getId()%>"+><%=test.getName()%></td>
+							<td><%=DateTime.timeFormat(test.getBeginDate())%></td>
+							<td><%=DateTime.timeFormat(test.getEndDate())%></td>
 							<td><%=test.getTotalTime()%></td>
 						</tr>
 
@@ -319,41 +327,7 @@
 				</div>
 
 
-
-				<!--删除考试 模态框（Modal） -->
-				<div class="modal fade" id="delTest" tabindex="-1" role="dialog"
-					aria-labelledby="delTestLabel" aria-hidden="true">
-					<div class="modal-dialog">
-						<div class="modal-content">
-							<div class="modal-header">
-								<button type="button" class="close" data-dismiss="modal"
-									aria-hidden="true">&times;</button>
-								<h4 class="modal-title" id="delTestLabel">删除考试</h4>
-							</div>
-							<div class="modal-body">
-
-
-
-								<form class="form-horizontal" id="delSubmitform">
-									<fieldset>
-
-										<div class="control-group">确定删除？</div>
-
-
-									</fieldset>
-								</form>
-							</div>
-							<div class="modal-footer">
-								<button type="button" class="btn btn-default"
-									data-dismiss="modal">关闭</button>
-								<button type="button" id="delTestSubmit" class="btn btn-primary">確定</button>
-							</div>
-						</div>
-						<!-- /.modal-content -->
-					</div>
-					<!-- /.modal -->
-
-				</div>
+ 
 
 
 

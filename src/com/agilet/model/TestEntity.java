@@ -1,5 +1,6 @@
 package com.agilet.model;
 
+import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
@@ -10,7 +11,7 @@ import javax.jdo.annotations.Persistent;
 import javax.jdo.annotations.PrimaryKey;
 
 @PersistenceCapable(identityType = IdentityType.APPLICATION)
-public class TestEntity {
+public class TestEntity implements Serializable{
 	// exam_test_id long 考试id
 	// exam_test_name string 考试名称
 	// exam_test_begin_date date 考试开始日期
