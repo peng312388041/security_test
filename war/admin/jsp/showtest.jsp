@@ -81,7 +81,6 @@
 				$(".test:checkbox").prop('checked', false);
 
 			}
-
 		})
 
 		$(".form_datetime2").datetimepicker({
@@ -211,17 +210,16 @@
 					<tbody>
 
 						<%
-							List<TestEntity> testEntities = (ArrayList) session
-									.getAttribute("testEntities");
+							List<TestEntity> testEntities = (ArrayList) session.getAttribute("testEntities");
 							for (TestEntity test : testEntities) {
 						%>
 
 						<tr>
-							<td><input type="checkbox" value="<%=test.getId()%>"
+							<td><input type="checkbox" value="<%=test.getKey()%>"
 								name="testid" class="test" /></td>
-							<td><a href="/test?action=edit&&id=<%=test.getId()%>"+><%=test.getName()%></td>
-							<td><%=DateTime.timeFormat(test.getBeginDate())%></td>
-							<td><%=DateTime.timeFormat(test.getEndDate())%></td>
+							<td><a href="/test?action=edit&&id=<%=test.getKey()%>"+><%=test.getName()%></td>
+							<td><%=test.getBeginDate()%></td>
+							<td><%=test.getEndDate()%></td>
 							<td><%=test.getTotalTime()%></td>
 						</tr>
 

@@ -1,9 +1,9 @@
 package com.agilet.model;
 
 import java.io.Serializable;
-import java.util.Date;
 import java.util.List;
 
+import javax.jdo.annotations.Extension;
 import javax.jdo.annotations.IdGeneratorStrategy;
 import javax.jdo.annotations.IdentityType;
 import javax.jdo.annotations.PersistenceCapable;
@@ -11,7 +11,7 @@ import javax.jdo.annotations.Persistent;
 import javax.jdo.annotations.PrimaryKey;
 
 @PersistenceCapable(identityType = IdentityType.APPLICATION)
-public class TestEntity implements Serializable{
+public class TestEntity implements Serializable {
 	// exam_test_id long 考试id
 	// exam_test_name string 考试名称
 	// exam_test_begin_date date 考试开始日期
@@ -23,21 +23,38 @@ public class TestEntity implements Serializable{
 	// exam_test_user_field3 long 备用字段3
 	// exam_test_active boolean 活动标记(已废除为false，否则为true)
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
 	@PrimaryKey
 	@Persistent(valueStrategy = IdGeneratorStrategy.IDENTITY)
-	private Long id;
+	@Extension(vendorName = "datanucleus", key = "gae.encoded-pk", value = "true")
+	private String key;
+
+//	@Persistent
+//	@Extension(vendorName = "datanucleus", key = "gae.pk-name", value = "true")
+//	private String keyName;
+
+	@Persistent
+	@Extension(vendorName = "datanucleus", key = "gae.pk-id", value = "true")
+	private Long keyId;
 
 	@Persistent
 	private String name;
 
 	@Persistent
-	private long beginDate;
+	private String beginDate;
 
 	@Persistent
-	private long endDate;
+	private String endDate;
 
 	@Persistent
 	private List<String> userTestes;
+
+	@Persistent
+	private List<String> problems;
 
 	@Persistent
 	private Integer totalTime;
@@ -54,12 +71,28 @@ public class TestEntity implements Serializable{
 	@Persistent
 	private Boolean active;
 
-	public Long getId() {
-		return id;
+	public String getKey() {
+		return key;
 	}
 
-	public void setId(Long id) {
-		this.id = id;
+	public void setKey(String key) {
+		this.key = key;
+	}
+
+//	public String getKeyName() {
+//		return keyName;
+//	}
+//
+//	public void setKeyName(String keyName) {
+//		this.keyName = keyName;
+//	}
+//	
+	public Long getKeyId() {
+		return keyId;
+	}
+
+	public void setKeyId(Long keyId) {
+		this.keyId = keyId;
 	}
 
 	public String getName() {
@@ -70,19 +103,27 @@ public class TestEntity implements Serializable{
 		this.name = name;
 	}
 
-	public long getBeginDate() {
+	public String getBeginDate() {
 		return beginDate;
 	}
 
-	public void setBeginDate(long beginDate) {
+	public void setBeginDate(String beginDate) {
 		this.beginDate = beginDate;
 	}
 
-	public long getEndDate() {
+	public String getEndDate() {
 		return endDate;
 	}
 
-	public void setEndDate(long endDate) {
+	public List<String> getProblems() {
+		return problems;
+	}
+
+	public void setProblems(List<String> problems) {
+		this.problems = problems;
+	}
+
+	public void setEndDate(String endDate) {
 		this.endDate = endDate;
 	}
 

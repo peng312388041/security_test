@@ -14,6 +14,7 @@ public class QueryUtil {
 	private static DatastoreService datastoreService = DatastoreServiceFactory
 			.getDatastoreService();
 
+	@SuppressWarnings("unused")
 	public static Entity getEntityById(String string, Long id) {
 		Entity entity = null;
 		List<TestEntity> testEntities = new ArrayList<TestEntity>();
@@ -30,6 +31,7 @@ public class QueryUtil {
 		return entity;
 	}
 
+	@SuppressWarnings("unused")
 	public static Entity getEntityById(String string, String id) {
 		Entity entity = null;
 		List<TestEntity> testEntities = new ArrayList<TestEntity>();

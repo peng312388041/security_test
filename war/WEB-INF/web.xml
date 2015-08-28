@@ -37,6 +37,19 @@
 		<servlet-name>amdinTestServlet</servlet-name>
 		<servlet-class>com.agilet.servlet.AdminTestServlet</servlet-class>
 	</servlet>
+	
+	
+	
+<!-- 前台 -->
+	<servlet-mapping>
+		<servlet-name>FrontTestServlet</servlet-name>
+		<url-pattern>/test.jsp</url-pattern>
+	</servlet-mapping>
+
+	<servlet>
+		<servlet-name>FrontTestServlet</servlet-name>
+		<servlet-class>com.agilet.servlet.FrontTestServlet</servlet-class>
+	</servlet>
 
 	<!-- Default page to serve -->
 	<welcome-file-list>

@@ -1,3 +1,5 @@
+<%@page import="com.agilet.server.ProblemService"%>
+<%@page import="com.agilet.model.ProblemEntity"%>
 <%@page import="java.util.ArrayList"%>
 <%@page import="com.agilet.model.TestEntity"%>
 <%@page import="java.util.List"%>
@@ -65,176 +67,171 @@
 
 <%
 	TestEntity test = (TestEntity) session.getAttribute("test");
+	String json = session.getAttribute("json").toString();
+	System.out.println(json);
 %>
-
+<script type="text/javascript">
+	
+</script>
 
 <script type="text/javascript">
-		var problems=new Array();
-		 
-	$(document).ready(function() { 
+	var problems = new Array();
 
+	$(document)
+			.ready(
+					function() {
+						problems = eval(<%=json%>);
+						updateProblemContainer();
 
-		function initProblems()
-		{
-		//通过后台传过来的problems来初始化
-		
-		}
-	
-		function initProblemContainer()
-		{
-//  			for(var i=0;i<problems.length;i++)
-//  			{
-// 			 	var str="";
-// 			 	str+="<a>"+ problems[i].problemTitle +"</a>"
-// 					$("#container1").html(str);
-//  			}
-		}
-	 
-		function getID()
-		{
- 			var max=0
-				for(var i=0;i<problems.length;i++)
-				{
-					if(max<problems[i].id)
-						max=problems[i].id;
-				}
-			return max+1;
-		}
-		
+						function getID() {
+							var max = 0
+							for (var i = 0; i < problems.length; i++) {
+								if (max < problems[i].id)
+									max = problems[i].id;
+							}
+							return max + 1;
+						}
 
-		function getObjectById(id)
-		{
-			var object=new Object();
-			for(var i=0;i<problems.length;i++)
-			{
-				if(id==problems[i].id)
-				{
-					object=problems[i];
-					break;
-				}
-			}
-			return object;
-		}
+						function getObjectById(id) {
+							var object = new Object();
+							for (var i = 0; i < problems.length; i++) {
+								if (id == problems[i].id) {
+									object = problems[i];
+									break;
+								}
+							}
+							return object;
+						}
 
-		 
-		
-		function updateProblemContainer()
-		{
-			var str="";
- 			for(var i=0;i<problems.length;i++)
- 			{
-			 	str+="<div><a data-target='#addproblem' class=problemShow id="+problems[i].id+">"+problems[i].problemTitle+"</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <a class='glyphicon glyphicon-minus'></a></div>"
- 			}
- 			$("#container1").html(str);
- 			
- 				$(document).ready(function() {
- 						 $(".problemShow").click(function(){
- 						     var object=getObjectById($(this).attr("id"));
- 						     $("#problemID").val(object.id);
- 						    resetModalForm(object);
-						 	 $("#addproblem").modal();
-						 })
-		 								 //单击减号
-							$(".glyphicon-minus").click(function(){
-								 
-								 var id=$(this).parent().children().first().attr("id");
-								 for(var i=0;i<problems.length;i++)
-									 {
-									 	if(problems[i].id==id)
-									 		{
-									 			problems.splice(i,1);
-									 			break;
-									 		}
-									 }
-								 
-								 updateProblemContainer();
-							})
- 				})
- 				 
-		}
-		
+						function updateProblemContainer() {
+							var str = "";
+							for (var i = 0; i < problems.length; i++) {
+								str += "<div><a data-target='#addproblem' class=problemShow id="+problems[i].id+">"
+										+ problems[i].problemTitle
+										+ "</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <a class='glyphicon glyphicon-minus'></a></div>"
+							}
+							$("#container1").html(str);
 
-		function clearModalForm()
-		{
-			 $("#problemID").val("");
-			 $("#problemTitle").val("");
-			 $("#answer1").val("");
-			 $("#answer2").val("");
-			 $("#answer3").val("");
-			 $("#answer4").val("");
-			 $("#rightAnswer1").prop("checked",false);
-			 $("#rightAnswer2").prop("checked",false);
-			 $("#rightAnswer3").prop("checked",false);
-			 $("#rightAnswer4").prop("checked",false);
-		}
+							$(document).ready(
+											function() {
+												$(".problemShow")
+														.click(
+																function() {
+																	var object = getObjectById($(
+																			this)
+																			.attr(
+																					"id"));
+																	$(
+																			"#problemID")
+																			.val(
+																					object.id);
+																	resetModalForm(object);
+																	$(
+																			"#addproblem")
+																			.modal();
+																})
+												//单击减号
+	$(".glyphicon-minus")
+			.click(
+					function() {
 
+						var id = $(this).parent().children().first().attr("id");
+						for (var i = 0; i < problems.length; i++) {
+							if (problems[i].id == id) {
+								problems.splice(i,1);
+								break;
+							}
+						}
+ 						updateProblemContainer();
+					}) 
+					}) 
+  					}
 
-		function resetModalForm(object)
-		{
-			 $("#problemTitle").val(object.problemTitle);
-			 $("#answer1").val(object.answer1);
-			 $("#answer2").val(object.answer2);
-			 $("#answer3").val(object.answer3);
-			 $("#answer4").val( object.answer4);
-			 $("#rightAnswer1").prop("checked",object.rightAnswer1);
-			 $("#rightAnswer2").prop("checked",object.rightAnswer2);
-			 $("#rightAnswer3").prop("checked",object.rightAnswer3);
-			 $("#rightAnswer4").prop("checked",object.rightAnswer4);
-		}
+						function clearModalForm() {
+							$("#problemID").val("");
+							$("#problemTitle").val("");
+							$("#answer1").val("");
+							$("#answer2").val("");
+							$("#answer3").val("");
+							$("#answer4").val("");
+							$("#score").val("");
+							$("#rightAnswer1").prop("checked", false);
+							$("#rightAnswer2").prop("checked", false);
+							$("#rightAnswer3").prop("checked", false);
+							$("#rightAnswer4").prop("checked", false);
+						}
 
-		$(".form_datetime2").datetimepicker({
-			format : "yyyy-mm-dd",
-			autoclose : true,
-			todayBtn : true,
-			minuteStep : 10,
-			language : 'ja',
-			startView : 2,
-			minView : 2
-		});
+						function resetModalForm(object) {
+							$("#problemTitle").val(object.problemTitle);
+							$("#answer1").val(object.answer1);
+							$("#answer2").val(object.answer2);
+							$("#answer3").val(object.answer3);
+							$("#answer4").val(object.answer4);
+							$("#score").val(object.score);
+							$("#rightAnswer1").prop("checked",
+									object.rightAnswer1);
+							$("#rightAnswer2").prop("checked",
+									object.rightAnswer2);
+							$("#rightAnswer3").prop("checked",
+									object.rightAnswer3);
+							$("#rightAnswer4").prop("checked",
+									object.rightAnswer4);
+						}
 
-		//初始化datetimepicker
-		$(".form_datetime1").datetimepicker({
-			format : "yyyy-mm-dd",
-			autoclose : true,
-			todayBtn : true,
-			startDate : "2013-02-14 10:00",
-			minuteStep : 10,
-			language : 'ja',
-			startView : 2,
-			minView : 2
-		}).on('changeDate', function(ev) {
-			var starttime = $('#dtp_input1').val();
-			$('.form_datetime2').datetimepicker('setStartDate', starttime);
-		});
+						$(".form_datetime2").datetimepicker({
+							format : "yyyy-mm-dd",
+							autoclose : true,
+							todayBtn : true,
+							minuteStep : 10,
+							language : 'ja',
+							startView : 2,
+							minView : 2
+						});
 
-		//提交增加考题表单
-		$("#addProblemSubmit").click(function() {
-			$("#addproblem").modal('hide');
-			$("#editProblemForm").ajaxSubmit({
-				type : "post",
-				//async : false,
-				url : "/admin/test?action=update&&testid=<%=test.getId()%>&&time=" + TimeRanges,
-							success : function(
-									data) {
-								window.location
-										.reload();
-										}
-									})
-		 })
+						//初始化datetimepicker
+						$(".form_datetime1").datetimepicker({
+							format : "yyyy-mm-dd",
+							autoclose : true,
+							todayBtn : true,
+							minuteStep : 10,
+							language : 'ja',
+							startView : 2,
+							minView : 2
+						}).on(
+								'changeDate',
+								function(ev) {
+									var starttime = $('#dtp_input1').val();
+									$('.form_datetime2').datetimepicker(
+											'setStartDate', starttime);
+								});
+
+						//点击"确认修改"
+						$("#editTestSubmit").click(
+							function() {
+								$("#editProblemForm").ajaxSubmit({
+								 url : "/admin/test?action=update&&testid=<%=test.getKey()%>&&time="+ TimeRanges,
+								 type : "post",
+  						     //    dataType : "json",
+								 data : {"problems" : JSON.stringify(problems)},
+								 success:function(data)
+								 {
+									 location.href="/admin/test?action=list";
+								 }
+ 								  })
+								return false;
+	});
 
 						//单击"添加"按钮
 						$("#addProblemButton").click(
 								function() {
-									var problemID=$("#problemID").val();
+									var problemID = $("#problemID").val();
 									//如果已经存在,则删除旧的
-									 for(var i=0;i<problems.length;i++)
-										 {
-										 	if(problems[i].id==problemID)
-										 		{
-										 		   problems.splice(i,1);
-										 			break;
-										 		}
-										 }
+									for (var i = 0; i < problems.length; i++) {
+										if (problems[i].id == problemID) {
+											problems.splice(i, 1);
+											break;
+										}
+									}
 									var problem = new Object();
 									problem.problemTitle = $("#problemTitle")
 											.val();
@@ -242,6 +239,7 @@
 									problem.answer2 = $("#answer2").val();
 									problem.answer3 = $("#answer3").val();
 									problem.answer4 = $("#answer4").val();
+									problem.score = $("#score").val();
 									problem.rightAnswer1 = $("#rightAnswer1")
 											.prop("checked");
 									problem.rightAnswer2 = $("#rightAnswer2")
@@ -250,23 +248,18 @@
 											.prop("checked");
 									problem.rightAnswer4 = $("#rightAnswer4")
 											.prop("checked");
-										problem.id = getID();
-										problems.push(problem);
+									problem.id = getID();
+									problems.push(problem);
 									clearModalForm();
 									updateProblemContainer();
-									 
+
 								})
-								//单击加号
-							$(".glyphicon-plus").click(function(){
-								alert("单击加号");
-								clearModalForm();
-							})
-							
+						//单击加号
+						$(".glyphicon-plus").click(function() {
+							clearModalForm();
+						})
+
 					});
-	
-	
-	
-	
 </script>
 
 </head>
@@ -378,11 +371,9 @@
 													<h4 class="modal-title" id="addproblemLabel">添加考题</h4>
 												</div>
 												<div class="modal-body">
+
+
 													<!--考题模态框内容开始-->
-
-
-
-
 													<div id="legend" class="">
 														<legend class="">表单名</legend>
 													</div>
@@ -428,6 +419,15 @@
 														<label class="control-label" for="input01">选项四</label>
 														<div class="controls">
 															<input type="text" class="input-xlarge" id="answer4">
+														</div>
+													</div>
+
+													<div class="control-group">
+
+														<!-- Text input-->
+														<label class="control-label" for="input01">分数</label>
+														<div class="controls">
+															<input type="text" class="input-xlarge" id="score">
 														</div>
 													</div>
 
@@ -512,14 +512,14 @@
 											<div class="input-group date form_datetime1 col-md-5"
 												data-link-field="dtp_input1">
 												<input class="form-control" size="16" type="text"
-													value="<%=DateTimeUtil.timeFormat(test.getBeginDate())%>"
-													readonly> <span class="input-group-addon"><span
+													value="<%=test.getBeginDate()%>" readonly> <span
+													class="input-group-addon"><span
 													class="glyphicon glyphicon-remove"></span></span> <span
 													class="input-group-addon"><span
 													class="glyphicon glyphicon-th"></span></span>
 											</div>
 											<input type="hidden" name="begintime" id="dtp_input1"
-												value="<%=DateTimeUtil.timeFormat(test.getBeginDate())%>" /><br />
+												value="<%=test.getBeginDate()%>" /><br />
 
 
 
@@ -530,14 +530,14 @@
 											<div class="input-group date form_datetime2 col-md-5"
 												data-link-field="dtp_input2">
 												<input class="form-control" size="16" type="text"
-													value="<%=DateTimeUtil.timeFormat(test.getEndDate())%>"
-													readonly> <span class="input-group-addon"><span
+													value="<%=test.getEndDate()%>" readonly> <span
+													class="input-group-addon"><span
 													class="glyphicon glyphicon-remove"></span></span> <span
 													class="input-group-addon"><span
 													class="glyphicon glyphicon-th"></span></span>
 											</div>
 											<input type="hidden" name="endtime" id="dtp_input2"
-												value="<%=DateTimeUtil.timeFormat(test.getEndDate())%>" /><br />
+												value="<%=test.getEndDate()%>" /><br />
 
 
 
@@ -546,7 +546,7 @@
 											<div class="controls">
 												<input type="text" name="totaltime"
 													onkeyup="value=value.replace(/[^1234567890-]+/g,'')"
-													class="input-xlarge" value="120">
+													class="input-xlarge" value="<%=test.getTotalTime()%>">
 											</div>
 
 
@@ -558,18 +558,17 @@
 							</div>
 							<!-- 修改考试基本信息结束 -->
 						</div>
-						
-<!-- 		 用来提交考题数组 -->
-			<input type="hidden" >
+
+						<!-- 		 用来提交考题数组 -->
+						<input type="hidden">
 
 						<!--折叠框结束 -->
 				</fieldset>
 			</form>
 
-										<div>
-											<button type="button" id="addTestSubmit"
-												class="btn btn-primary">确定修改</button>
-										</div>
+			<div>
+				<button type="button" id="editTestSubmit" class="btn btn-primary">确定修改</button>
+			</div>
 		</div>
 	</div>
 	<div class="layout_footer">

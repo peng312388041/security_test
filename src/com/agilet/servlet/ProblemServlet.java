@@ -11,15 +11,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.agilet.model.AnswerEntity;
-import com.agilet.model.ProblemEntity;
 import com.agilet.model.TestEntity;
-import com.agilet.server.AnswerService;
-import com.agilet.server.ProblemService;
 import com.agilet.server.TestService;
-import com.agilet.util.DateTimeUtil;
-import com.google.appengine.api.datastore.Key;
-import com.google.appengine.api.datastore.KeyFactory;
 
 public class ProblemServlet extends HttpServlet {
 
@@ -44,10 +37,8 @@ public class ProblemServlet extends HttpServlet {
 			TestEntity testEntity = new TestEntity();
 			testEntity.setActive(true);
 			testEntity.setName(request.getParameter("name"));
-			testEntity.setBeginDate(DateTimeUtil.String2Time(
-					request.getParameter("begintime")).getTime());
-			testEntity.setEndDate(DateTimeUtil.String2Time(
-					request.getParameter("endtime")).getTime());
+			testEntity.setBeginDate(request.getParameter("begintime"));
+			testEntity.setEndDate(request.getParameter("endtime"));
 			testEntity.setTotalTime(Integer.parseInt(request
 					.getParameter("totaltime")));
 			testEntity.setUserTestes(null);

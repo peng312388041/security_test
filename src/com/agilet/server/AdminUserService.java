@@ -16,6 +16,7 @@ public class AdminUserService {
 		persistenceManager.makePersistent(adminUserEntity);
 	}
 
+	@SuppressWarnings("unchecked")
 	public List<AdminUserEntity> getAdminUserEntities() {
 
 		Query query = persistenceManager.newQuery(AdminUserEntity.class);

@@ -1,2 +1,3 @@
 # Module seculity_test
 # RPC service class, partial path of RPC policy file
+com.agilet.client.GreetingService, 4760824336B0C694D5F2968D22795D63.gwt.rpc

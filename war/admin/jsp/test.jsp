@@ -99,7 +99,6 @@
 			format : "yyyy-mm-dd",
 			autoclose : true,
 			todayBtn : true,
-			startDate : "2013-02-14 10:00",
 			minuteStep : 10,
 			language : 'ja',
 			startView : 2,
@@ -209,11 +208,11 @@
 						%>
 
 						<tr>
-							<td><input type="checkbox" value="<%=test.getId()%>"
+							<td><input type="checkbox" value="<%=test.getKey()%>"
 								name="testid" class="test" /></td>
-							<td><a href="/admin/test?action=edit&&testid=<%=test.getId()%>"+><%=test.getName()%></td>
-							<td><%=DateTimeUtil.timeFormat(test.getBeginDate())%></td>
-							<td><%=DateTimeUtil.timeFormat(test.getEndDate())%></td>
+							<td><a href="/admin/test?action=edit&&testid=<%=test.getKey()%>&&time="+TimeRanges+><%=test.getName()%></td>
+							<td><%=test.getBeginDate()%></td>
+							<td><%=test.getEndDate()%></td>
 							<td><%=test.getTotalTime()%></td>
 						</tr>
 
@@ -301,7 +300,7 @@
 										<div class="controls">
 											<input type="text" name="totaltime"
 												onkeyup="value=value.replace(/[^1234567890-]+/g,'')"
-												class="input-xlarge" value="120">
+												class="input-xlarge" value="">
 										</div>
 									</fieldset>
 								</form>

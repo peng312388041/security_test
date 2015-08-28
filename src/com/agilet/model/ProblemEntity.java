@@ -1,7 +1,9 @@
 package com.agilet.model;
 
+import java.io.Serializable;
 import java.util.List;
 
+import javax.jdo.annotations.Extension;
 import javax.jdo.annotations.IdGeneratorStrategy;
 import javax.jdo.annotations.IdentityType;
 import javax.jdo.annotations.PersistenceCapable;
@@ -9,7 +11,7 @@ import javax.jdo.annotations.Persistent;
 import javax.jdo.annotations.PrimaryKey;
 
 @PersistenceCapable(identityType = IdentityType.APPLICATION)
-public class ProblemEntity {
+public class ProblemEntity implements Serializable {
 	// exam_problem_id long
 	// exam_problem_content string
 	// exam_problem_answers list<exam_answer>
@@ -19,9 +21,24 @@ public class ProblemEntity {
 	// exam_problem_field3 int
 	// exam_problem_active boolean
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
 	@PrimaryKey
 	@Persistent(valueStrategy = IdGeneratorStrategy.IDENTITY)
-	private Long id;
+	@Extension(vendorName = "datanucleus", key = "gae.encoded-pk", value = "true")
+	private String key;
+
+//	@Persistent
+//	@Extension(vendorName = "datanucleus", key = "gae.pk-name", value = "true")
+//	private String keyName;
+
+	// OR:
+	@Persistent
+	@Extension(vendorName = "datanucleus", key = "gae.pk-id", value = "true")
+	private Long keyId;
 
 	@Persistent
 	private String content;
@@ -44,12 +61,30 @@ public class ProblemEntity {
 	@Persistent
 	private Boolean active;
 
-	public Long getId() {
-		return id;
+	public String getKey() {
+		return key;
 	}
 
-	public void setId(Long id) {
-		this.id = id;
+	public void setKey(String key) {
+		this.key = key;
+	}
+
+//	public String getKeyName() {
+//		return keyName;
+//	}
+//
+//	public void setKeyName(String keyName) {
+//		this.keyName = keyName;
+//	}
+	
+	
+ 
+	public Long getKeyId() {
+		return keyId;
+	}
+
+	public void setKeyId(Long keyId) {
+		this.keyId = keyId;
 	}
 
 	public String getContent() {
@@ -107,5 +142,4 @@ public class ProblemEntity {
 	public void setActive(Boolean active) {
 		this.active = active;
 	}
-
 }

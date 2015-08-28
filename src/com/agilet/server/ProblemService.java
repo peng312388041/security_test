@@ -1,17 +1,23 @@
 package com.agilet.server;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.jdo.PersistenceManager;
-import javax.jdo.Query;
 
-import com.agilet.model.AnswerEntity;
 import com.agilet.model.ProblemEntity;
+import com.agilet.model.TestEntity;
 import com.agilet.util.PMF;
-import com.google.appengine.api.datastore.KeyFactory;
+import com.google.appengine.api.datastore.DatastoreService;
+import com.google.appengine.api.datastore.DatastoreServiceFactory;
 
 public class ProblemService {
-	private static PersistenceManager persistenceManager = PMF.getInstance().getPersistenceManager();
+	private static TestService testService = new TestService();
+	@SuppressWarnings("unused")
+	private DatastoreService datastoreService = DatastoreServiceFactory
+			.getDatastoreService();
+	private static PersistenceManager persistenceManager = PMF.getInstance()
+			.getPersistenceManager();
 
 	public void add(ProblemEntity problem) {
 		persistenceManager.makePersistent(problem);
@@ -25,22 +31,37 @@ public class ProblemService {
 		persistenceManager.refresh(problem);
 	}
 
-	public List<ProblemEntity> getProblems() {
-		List<ProblemEntity> problemEntities = null;
-		Query query = persistenceManager.newQuery(ProblemEntity.class);
-		problemEntities = (List<ProblemEntity>) query.execute();
+	public ProblemEntity getProblemByKey(String key) {
+		return (ProblemEntity) persistenceManager.getObjectById(
+				ProblemEntity.class, key);
+
+	}
+
+	public List<ProblemEntity> getProblems(String testEntityKey) {
+		TestEntity testEntity = testService.getTestById(testEntityKey);
+		List<ProblemEntity> problemEntities = new ArrayList<ProblemEntity>();
+
+		List<String> problems = testEntity.getProblems();
+		for (String key : problems) {
+			ProblemEntity problem = new ProblemEntity();
+			problem = (ProblemEntity) persistenceManager.getObjectById(
+					ProblemEntity.class, key);
+			problemEntities.add(problem);
+		}
 		return problemEntities;
 	}
 
-	public ProblemEntity getProblemById(Long id) {
-		ProblemEntity problem = null;
-		List<ProblemEntity> problemEntities = getProblems();
-		for (ProblemEntity entity : problemEntities) {
-			if (entity.getId().equals(id)) {
-				problem = entity;
+	public boolean inDataBase(ProblemEntity problemEntity) {
+		List<TestEntity> testEntities = testService.getTestes();
+		for (TestEntity testEntity : testEntities) {
+			List<String> problemEntities = testEntity.getProblems();
+			for (String problemKey : problemEntities) {
+				if (problemEntity.getKey().equals(problemKey)) {
+					return true;
+				}
 			}
 		}
-		return problem;
+		return false;
 	}
- 
+
 }

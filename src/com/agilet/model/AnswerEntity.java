@@ -1,5 +1,7 @@
 package com.agilet.model;
 
+import javax.jdo.annotations.Extension;
+import javax.jdo.annotations.IdGeneratorStrategy;
 import javax.jdo.annotations.IdentityType;
 import javax.jdo.annotations.PersistenceCapable;
 import javax.jdo.annotations.Persistent;
@@ -16,9 +18,22 @@ public class AnswerEntity {
 	// exam_answer_active boolean
 
 	@PrimaryKey
+	@Persistent(valueStrategy = IdGeneratorStrategy.IDENTITY)
+	@Extension(vendorName = "datanucleus", key = "gae.encoded-pk", value = "true")
 	private String key;
+
+	// @Persistent
+	// @Extension(vendorName = "datanucleus", key = "gae.pk-name", value =
+	// "true")
+	// private String keyName;
+
+	@Persistent
+	@Extension(vendorName = "datanucleus", key = "gae.pk-id", value = "true")
+	private Long keyId;
+
 	@Persistent
 	private String content;
+
 	@Persistent
 	private boolean result;
 	@Persistent
@@ -38,8 +53,24 @@ public class AnswerEntity {
 		this.key = key;
 	}
 
+	// public String getKeyName() {
+	// return keyName;
+	// }
+	//
+	// public void setKeyName(String keyName) {
+	// this.keyName = keyName;
+	// }
+
 	public String getContent() {
 		return content;
+	}
+
+	public Long getKeyId() {
+		return keyId;
+	}
+
+	public void setKeyId(Long keyId) {
+		this.keyId = keyId;
 	}
 
 	public void setContent(String content) {
@@ -85,5 +116,4 @@ public class AnswerEntity {
 	public void setActive(boolean active) {
 		this.active = active;
 	}
-
 }
