@@ -117,18 +117,10 @@
 												$(".problemShow")
 														.click(
 																function() {
-																	var object = getObjectById($(
-																			this)
-																			.attr(
-																					"id"));
-																	$(
-																			"#problemID")
-																			.val(
-																					object.id);
+																	var object = getObjectById($(this).attr("id"));
+																	$("#problemID").val(object.id);
 																	resetModalForm(object);
-																	$(
-																			"#addproblem")
-																			.modal();
+																	$("#addproblem").modal();
 																})
 												//单击减号
 	$(".glyphicon-minus")
@@ -149,6 +141,7 @@
 
 						function clearModalForm() {
 							$("#problemID").val("");
+							$("#problemKey").val("");
 							$("#problemTitle").val("");
 							$("#answer1").val("");
 							$("#answer2").val("");
@@ -163,6 +156,7 @@
 
 						function resetModalForm(object) {
 							$("#problemTitle").val(object.problemTitle);
+							$("#problemKey").val(object.problemKey);
 							$("#answer1").val(object.answer1);
 							$("#answer2").val(object.answer2);
 							$("#answer3").val(object.answer3);
@@ -228,6 +222,7 @@
 									//如果已经存在,则删除旧的
 									for (var i = 0; i < problems.length; i++) {
 										if (problems[i].id == problemID) {
+											var problemKey = $("#problemKey").val();
 											problems.splice(i, 1);
 											break;
 										}
@@ -235,6 +230,8 @@
 									var problem = new Object();
 									problem.problemTitle = $("#problemTitle")
 											.val();
+									problem.problemKey = $("#problemKey")
+									.val();
 									problem.answer1 = $("#answer1").val();
 									problem.answer2 = $("#answer2").val();
 									problem.answer3 = $("#answer3").val();
@@ -380,6 +377,7 @@
 													<div class="control-group">
 
 														<input type="hidden" id="problemID" />
+														<input type="hidden" id="problemKey" />
 														<!-- Text input-->
 														<label class="control-label" for="input01">问题</label>
 														<div class="controls">

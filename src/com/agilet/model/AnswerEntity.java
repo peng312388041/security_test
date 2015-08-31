@@ -24,7 +24,7 @@ public class AnswerEntity {
 
 	// @Persistent
 	// @Extension(vendorName = "datanucleus", key = "gae.pk-name", value =
-	// "true")
+	// "true").
 	// private String keyName;
 
 	@Persistent

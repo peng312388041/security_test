@@ -1,3 +1,4 @@
+<%@page import="com.agilet.dto.Question"%>
 <%@page import="com.agilet.server.AnswerService"%>
 <%@page import="com.agilet.server.ProblemService"%>
 <%@page import="com.agilet.model.AnswerEntity"%>
@@ -22,11 +23,13 @@ a:hover{ text-decoration:none;}
 </style>
 
   <script src="<%=request.getContextPath()%>/front/files/jquery-1.8.3.min.js"></script>
+   
+<script src="<%=request.getContextPath()%> /admin/bootstrap-3.3.5/js/jquery.form.min.js"></script>
  <script src="<%=request.getContextPath()%>/front/files/jquery.page.js"></script>
 <script src="<%=request.getContextPath()%>/front/files/bootstrap-paginator-master/build/bootstrap-paginator.min.js"></script>
 <script type="text/javascript">
 <%
-List<ProblemEntity> problemEntities = (List<ProblemEntity>) session.getAttribute("problems");
+List<Question> problemEntities = (List<Question>) session.getAttribute("questions");
 ProblemService problemService = new ProblemService();
 AnswerService answerService = new AnswerService();
 %>
@@ -41,6 +44,21 @@ $(document).ready(function() {
 			//单击回调方法，p是当前页码
 		}
 	});
+	
+
+	$("#examination").click(function() {
+		$("#form1").ajaxSubmit({
+			type : "post",
+			url : "/examination",
+			dataType : 'json',
+			success : function(data) {
+			 
+ 				var json=eval(data);
+				alert(json.totalScore+"  "+json.wrongList);
+				
+			}
+		})
+	})
  })
 </script>
 
@@ -62,9 +80,7 @@ $(document).ready(function() {
 		</tbody>
 	</table>
 
-	<form id="form1" name="fm" method="post"
-		action="http://www.xiao5u.com/Demo/Survey/submit.asp"
-		onsubmit="return checkForm(this)">
+	<form id="form1" name="fm" >
 		<table width="960px" align="center" bgcolor="#FAFAFA">
 
 			<tbody>
@@ -73,8 +89,8 @@ $(document).ready(function() {
 					<td id="info2" colspan="6">选择题</td>
 				</tr>
 				<%
-					int index = 1;
-					for (ProblemEntity problem : problemEntities) {
+				 
+					for (Question problem : problemEntities) {
 				%>
  
 				<tr>
@@ -82,7 +98,8 @@ $(document).ready(function() {
 							cellspacing="5" align="center">
 							<tbody>
 								<tr>
-									<td><b><%=index%>，<%=problem.getContent()%> </b></td>
+									<td><b><%=problem.getId()%>，<%=problem.getContent()%>(<%=problem.getScore() %>) </b></td>
+									<input type="hidden" name="question<%=problem.getId()%>" value=<%=problem.getKey()%>>
 								</tr>
 								<tr><td>
 									<%
@@ -94,7 +111,7 @@ $(document).ready(function() {
 												
 									%>
 									
-										<input type="radio" name="problem<%=index%>" value=<%=answer.getKey()%>><%=answer.getContent().trim()%><br/><br/>
+										<input type="checkbox"   name="answer<%=problem.getId()%>" value="<%=answer.getKey()%>">  <%=answer.getContent().trim()%>    <br/>  <br/>
 								    
 								    
 									<%
@@ -108,14 +125,11 @@ $(document).ready(function() {
 				</tr>
 					   
 				<%
-					index++;
 					}
 				%>
-				
+				<input type="hidden" name="totalProblem" value=<%=problemEntities.size()%>>
 				<tr>
-					<td colspan="5" align="right"><input type="submit"
-						name="Submit" value=" 提 交 "> <input name="rsCount"
-						type="hidden" id="rsCount" value="12"></td>
+					<td colspan="5" align="right"><input id="examination" type="button" name="Submit" value=" 提 交 "></td>
 				</tr>
 
 			</tbody>

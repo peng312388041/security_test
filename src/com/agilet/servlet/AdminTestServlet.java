@@ -120,6 +120,7 @@ public class AdminTestServlet extends HttpServlet {
 					try {
 						jsonObject.put("problemTitle",
 								problemEntity.getContent());
+						jsonObject.put("problemKey", problemEntity.getKey());
 						jsonObject.put("score", problemEntity.getScore());
 						int i = 1;
 						for (String answer : problemEntity.getAnswers()) {
@@ -153,7 +154,6 @@ public class AdminTestServlet extends HttpServlet {
 			} catch (JSONException e) {
 				e.printStackTrace();
 			}
-
 			String testID = request.getParameter("testid");
 			TestEntity testEntity = testService.getTestById(testID);
 			testEntity.setName(request.getParameter("name"));
@@ -171,6 +171,14 @@ public class AdminTestServlet extends HttpServlet {
 				JSONObject object = null;
 				try {
 					object = jsonArray.getJSONObject(i);
+					
+					// 如果是已经存在，则先删除
+					String problemKey=object.getString("problemKey");
+					if (problemKey!=null&&!"".equals(problemKey)) {
+							ProblemEntity entity=problemService.getProblemByKey(problemKey);
+							problemService.delete(entity);
+					}
+					
 					List<String> answers = new ArrayList<String>();
 
 					for (int j = 1; j <= 4; j++) {
@@ -189,6 +197,9 @@ public class AdminTestServlet extends HttpServlet {
 					problemEntity.setContent(object.getString("problemTitle"));
 					problemEntity.setScore(Long.parseLong(object
 							.getString("score")));
+
+
+
 					problemService.add(problemEntity);
 					problems.add(problemEntity.getKey());
 
@@ -197,6 +208,7 @@ public class AdminTestServlet extends HttpServlet {
 				}
 
 			}
+		    //取到之后直接这样通过设置来进行更新，无需显式调用更新方法
 			testEntity.setProblems(problems);
 			String data = "success";
 			// 删除已经从考试中脱离的考题及选项

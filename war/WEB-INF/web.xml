@@ -56,4 +56,15 @@
 		<welcome-file>Seculity_test.html</welcome-file>
 	</welcome-file-list>
 
+
+<!-- 后台   -->
+	<servlet-mapping>
+		<servlet-name>examinationServlet</servlet-name>
+		<url-pattern>/examination</url-pattern>
+	</servlet-mapping>
+
+	<servlet>
+		<servlet-name>examinationServlet</servlet-name>
+		<servlet-class>com.agilet.servlet.ExaminationServlet</servlet-class>
+	</servlet>
 </web-app>

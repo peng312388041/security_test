@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.agilet.dto.Question;
 import com.agilet.model.ProblemEntity;
 import com.agilet.model.TestEntity;
 import com.agilet.server.ProblemService;
@@ -37,8 +38,19 @@ public class FrontTestServlet extends HttpServlet {
 		 List<ProblemEntity> problems=new ArrayList<ProblemEntity>();
 		 TestEntity testEntity=testservice.getTestes().get(0);
 		 problems= problemService.getProblems(testservice.getTestes().get(0).getKey());
-		 request.getSession().setAttribute("problems", problems);
-		 
+		 List<Question> questionList=new ArrayList<Question>();
+		 for(int i=0;i<problems.size();i++)
+		 {
+			 Question question=new Question();
+			 question.setId(i+1);
+			 question.setAnswers(problems.get(i).getAnswers());
+			 question.setContent(problems.get(i).getContent());
+			 question.setKey(problems.get(i).getKey());
+			 question.setKeyId(problems.get(i).getKeyId());
+			 question.setScore(problems.get(i).getScore());
+			 questionList.add(question);
+		 }
+		 request.getSession().setAttribute("questions", questionList);
 		 request.getRequestDispatcher("/front/index.jsp").forward(
 					request, response);
 		}

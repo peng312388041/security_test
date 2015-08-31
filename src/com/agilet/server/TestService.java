@@ -1,10 +1,12 @@
 package com.agilet.server;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import javax.jdo.PersistenceManager;
 
+import com.agilet.model.ProblemEntity;
 import com.agilet.model.TestEntity;
 import com.agilet.util.PMF;
 import com.google.appengine.api.datastore.DatastoreService;
@@ -18,6 +20,7 @@ public class TestService {
 	DatastoreService datastoreService = DatastoreServiceFactory
 			.getDatastoreService();
 
+	private static ProblemService problemService=new ProblemService();
 	private static PersistenceManager persistenceManager = PMF.getInstance()
 			.getPersistenceManager();
 
@@ -26,14 +29,15 @@ public class TestService {
 	}
 
 	public void delete(TestEntity testEntity) {
-
+		for(String string:testEntity.getProblems())
+		{
+			ProblemEntity problemEntity=problemService.getProblemByKey(string);
+			problemService.delete(problemEntity);
+		}
 		persistenceManager.deletePersistent(testEntity);
 	}
 
-	public void update(TestEntity test) {
-		persistenceManager.refresh(test);
-	}
-
+ 
 	public TestEntity getTestById(String key) {
 		return persistenceManager.getObjectById(TestEntity.class, key);
 	}
